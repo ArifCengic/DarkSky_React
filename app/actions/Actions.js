@@ -36,8 +36,9 @@ export function fetch_weather() {
              dataType: 'jsonp'
             }));  
       }
-      } catch (err) {
-          dispatch({type: "FETCH_WEATHER_ERROR", payload: err });
+    } catch (error) {
+          //console.log("REST " + error);
+          dispatch({type: "FETCH_WEATHER_ERROR", payload: error });
           return;
      }
 
@@ -71,7 +72,7 @@ export function fetch_weather() {
            }
            console.log(values);
           
-          dispatch({type: "RECEIVE_WEATHER", 
+           dispatch({type: "RECEIVE_WEATHER", 
                     payload: { 
                               series: values,
                               labels: days
@@ -79,7 +80,8 @@ export function fetch_weather() {
                           });
 
       }.bind(this), function(error) {
-        dispatch({type: "FETCH_WEATHER_ERROR", payload: err });
+        console.log("REST " + error);
+        dispatch({type: "FETCH_WEATHER_ERROR", payload: error });
         return;
       });
  

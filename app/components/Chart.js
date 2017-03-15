@@ -43,22 +43,28 @@ export  class Chart extends Component {
   } 
 
   render() {
-    //console.log(this);
-    if(this.props && this.props.data) new Chartist.Bar('.ct-chart', this.props.data, this.state.options, this.state.responsiveOptions);
+    console.log(this);
     
     let button = null;
     let message = null;
-    let fetching = null;
-    if(this.props.fetching)
-    {
-        fetching = <h2> Fetching Data </h2>
+    let chartDisplay = null;
+    let error = null;
+     if(this.props && this.props.data && !this.props.fetching) new Chartist.Bar('.ct-chart', this.props.data, this.state.options, this.state.responsiveOptions);
+
+    if(this.props.fetching){
+        chartDisplay = <h2> Fetching Data </h2> ;
     }
-    if(this.props.newLocation)
-    {
+    else{
+        if (this.props.error)   chartDisplay = <h2> Error getting data from server </h2>      
+
+        else  chartDisplay = <h2>  {this.props.timezone} </h2>      
+
+    }
+
+    if(this.props.newLocation){
         button = <button onClick={this.getWeather.bind(this)} className="btn btn-primary"> Get Data </button>;
     }
-    else
-    {
+    else{
       if(!this.props.lat) message = <h1> Click on map to select location </h1>
     }
     
@@ -66,9 +72,8 @@ export  class Chart extends Component {
       <section  className="container home">
         {message}
         {button}
-        {fetching}
         <div className="ct-chart"> </div>
-        <h2>  {this.props.timezone} </h2>      
+        {chartDisplay}
         <h1>  {this.props.name}  {this.props.count} </h1> 
       </section>
     );
@@ -85,11 +90,10 @@ export  class Chart extends Component {
 function mapStateToProps(state) {
   return {
     count: state.Count.count,
-    lat: state.Position.lat,
-    lng: state.Position.lng,
     newLocation: state.Position.newLocation,
     timezone: state.Weather.timezone,
     fetching: state.Weather.fetching,
+    error: state.Weather.error,
     data: state.Weather.data
   };
 }
