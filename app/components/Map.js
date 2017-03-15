@@ -14,11 +14,6 @@ export class Map extends Component {
     this.params = {v: '3.exp', key: 'AIzaSyCKH7XeJZRZvHcaE8xi9rl0LRGzCJyjfDU'};
   }
  
- onClick(e) {
-      //console.log('onClick', e);
-      this.props.dispatch(update_position(e.latLng.lat(), e.latLng.lng()));
- }
-
 render() {
     console.log(this);
 
@@ -31,7 +26,7 @@ render() {
         zoom={12}
         loadingMessage={'Loading'}
         params={this.params}
-        onClick={this.onClick.bind(this)}
+        onClick={this.props.updatePosition}
         onMapCreated={this.onMapCreated}>
         <Marker
           lat={this.props.lat}
@@ -49,12 +44,19 @@ render() {
     lat: PropTypes.number,
     lng: PropTypes.number
  }
-function mapStateToProps(state) {
+ 
+const mapStateToProps = (state) => {
   return {
     lat: state.Position.lat,
     lng: state.Position.lng
   };
 }
 
-export var VisibleMap = connect(mapStateToProps) (Map)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updatePosition: (e) => { dispatch(update_position(e.latLng.lat(), e.latLng.lng()));
+    }
+  }
+}
+export var VisibleMap = connect(mapStateToProps,mapDispatchToProps) (Map)
 

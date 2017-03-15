@@ -37,10 +37,10 @@ export  class Chart extends Component {
   
   }
 
-  getWeather() {
-      this.props.dispatch(inc(1));
-      this.props.dispatch(fetch_weather());
-  } 
+  // getWeather() {
+  //     this.props.incrementCount(1);
+  //     this.props.getWeather();
+  // } 
 
   render() {
     console.log(this);
@@ -62,7 +62,7 @@ export  class Chart extends Component {
     }
 
     if(this.props.newLocation){
-        button = <button onClick={this.getWeather.bind(this)} className="btn btn-primary"> Get Data </button>;
+        button = <button onClick={this.props.getWeather} className="btn btn-primary"> Get Data </button>;
     }
     else{
       if(!this.props.lat) message = <h1> Click on map to select location </h1>
@@ -87,7 +87,7 @@ export  class Chart extends Component {
     data: PropTypes.object
  }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
     count: state.Count.count,
     newLocation: state.Position.newLocation,
@@ -98,5 +98,12 @@ function mapStateToProps(state) {
   };
 }
 
-export var VisibleChart = connect(mapStateToProps)(Chart)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getWeather: () => { dispatch(fetch_weather()); dispatch(inc(1))},
+    incrementCount: (i) => { dispatch(inc(i))}
+  }
+}
+
+export var VisibleChart = connect(mapStateToProps,mapDispatchToProps)(Chart)
 
