@@ -56,7 +56,7 @@ export function fetch_weather() {
                  time: dd.time});
               }
 
-          restData.sort(function(a, b){return a.time-b.time});
+          restData.sort(function(a, b){return b.time-a.time});
 
           var values = [[],[]]; 
 
