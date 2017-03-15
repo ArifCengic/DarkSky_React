@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+//import fetch from 'isomorphic-fetch'
 import {storeX} from '../Store'
 
 //for now keep all Actions in one file

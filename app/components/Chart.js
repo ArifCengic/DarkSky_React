@@ -1,16 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux'
-import {fetch_weather} from '../actions/Actions'
+import {connect} from 'react-redux'
+import {fetch_weather, inc} from '../actions/Actions'
 
 
 export  class Chart extends Component {
 
   constructor(props) {
     super(props)
-    
-    // this.handleChange = this.handleChange.bind(this)
-    // this.handleRefreshClick = this.handleRefreshClick.bind(this)
 
     this.DAYS = 7
     this.state = {
@@ -40,157 +37,13 @@ export  class Chart extends Component {
   
   }
 
-incremental() {
-    this.props.dispatch(fetch_weather());
-} 
-
-IncrementalXXX(){
-this.props.dispatch((dispatch)=>{
-        dispatch({type: "FETCH_WEATHER_START"});
-
-   console.log(this.props.lat + "-" + this.props.lng);
-    const BASE_URL = 'https://api.darksky.net/forecast/';
-    const KEY = 'c57f7284ecdf0e3ef8309aa87e5cbc4d';
-
-     var promises = [];
-     try {
-       
-      for (var i = 1; i < this.DAYS+1; i++) {
-              var d = new Date();
-              d.setDate(d.getDate() - i);
-              var ts = Math.floor(d.valueOf()/1000);
-             console.log(`URL: ${BASE_URL}${KEY}/${this.props.lat},${this.props.lng},${ts}`);
-
-             promises.push( $.ajax({
-             url: `${BASE_URL}${KEY}/${this.props.lat},${this.props.lng},${ts}`,
-             dataType: 'jsonp'
-            }));  
-      }
-      } catch (error) {
-        //ARR to deal wih 403 error
-          console.log("START API error:" +  error);      
-          return;
-     }
-
-      let restData = []
-      $.when.apply($, promises).then(function() {
-          // returned data is in arguments[0][0], arguments[1][0], ... arguments[9][0]
-          this.setState({timezone: (arguments[0][0]).timezone });
-            dispatch({type: "UPDATE_TIMEZONE", payload: {timezone: (arguments[0][0]).timezone } });
-          for(let j=0; j<this.DAYS; j++) {
-            console.log(arguments[j][0]);
-            
-            let dd = (arguments[j][0]).daily.data[0];
-              restData.push({
-                 min: dd.temperatureMin,
-                 max: dd.temperatureMax,
-                 time: dd.time});
-              }
-
-          restData.sort(function(a, b){return a.time-b.time});
-
-          var values = [[],[]]; 
-
-          var days = restData.map((x) => { 
-            let d = new Date(x.time*1000); //convert timestamp to date
-            return ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
-          });
-
-          console.log("DAYS " + days);
-
-          for(let j=0; j<7; j++) {
-              values[0].push(restData[j].min);
-              values[1].push(restData[j].max);
-           }
-           console.log(values);
-          
-          dispatch({type: "RECEIVE_WEATHER", 
-                    payload: { 
-                              series: values,
-                              labels: days
-                            }
-                          });
-
-      }.bind(this), function(error) {
-        console.log("API error:" +  error);    
-        dispatch({type: "FETCH_WEATHER_ERROR", payload: err });
-        return;
-      });
- 
-      });
-}
-  
-
- getAPI() {
-   console.log(this.props.lat + "-" + this.props.lng);
-    const BASE_URL = 'https://api.darksky.net/forecast/';
-    const KEY = 'c57f7284ecdf0e3ef8309aa87e5cbc4d';
-
-     var promises = [];
-     try {
-       
-      for (var i = 1; i < this.DAYS+1; i++) {
-              var d = new Date();
-              d.setDate(d.getDate() - i);
-              var ts = Math.floor(d.valueOf()/1000);
-             console.log(`URL: ${BASE_URL}${KEY}/${this.props.lat},${this.props.lng},${ts}`);
-
-             promises.push( $.ajax({
-             url: `${BASE_URL}${KEY}/${this.props.lat},${this.props.lng},${ts}`,
-             dataType: 'jsonp'
-            }));  
-      }
-      } catch (error) {
-        //ARR to deal wih 403 error
-          console.log("START API error:" +  error);      
-          return;
-     }
-
-      let restData = []
-      $.when.apply($, promises).then(function() {
-          // returned data is in arguments[0][0], arguments[1][0], ... arguments[9][0]
-          this.setState({timezone: (arguments[0][0]).timezone });
-          for(let j=0; j<this.DAYS; j++) {
-            console.log(arguments[j][0]);
-            
-            let dd = (arguments[j][0]).daily.data[0];
-              restData.push({
-                 min: dd.temperatureMin,
-                 max: dd.temperatureMax,
-                 time: dd.time});
-              }
-
-          restData.sort(function(a, b){return a.time-b.time});
-
-          var values = [[],[]]; 
-          for(let j=0; j<7; j++) {
-              values[0].push(restData[j].min);
-              values[1].push(restData[j].max);
-           }
-           console.log(values);
-          
-          dispatch({type: "RECEIVE_WEATHER", payload: { 
-                          data: 
-                            { series: values,
-                              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                            }}});
-
-          //  this.setState({ 
-          //                 data: 
-          //                   { series: values,
-          //                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-          //                   }
-          //               });
-
-      }.bind(this), function(error) {
-        console.log("API error:" +  error);    
-        dispatch({type: "FETCH_WEATHER_ERROR", payload: err });
-        return;
-      });
- }
+  getWeather() {
+      this.props.dispatch(inc(1));
+      this.props.dispatch(fetch_weather());
+  } 
 
   render() {
-    console.log(this);
+    //console.log(this);
     if(this.props && this.props.data) new Chartist.Bar('.ct-chart', this.props.data, this.state.options, this.state.responsiveOptions);
     
     let button = null;
@@ -202,7 +55,7 @@ this.props.dispatch((dispatch)=>{
     }
     if(this.props.newLocation)
     {
-        button = <button onClick={this.incremental.bind(this)} className="btn btn-primary"> Get Data </button>;
+        button = <button onClick={this.getWeather.bind(this)} className="btn btn-primary"> Get Data </button>;
     }
     else
     {
@@ -216,16 +69,17 @@ this.props.dispatch((dispatch)=>{
         {fetching}
         <div className="ct-chart"> </div>
         <h2>  {this.props.timezone} </h2>      
-        <h1>  {this.props.count} {this.props.name}  </h1> 
+        <h1>  {this.props.name}  {this.props.count} </h1> 
       </section>
     );
   }
 }
 
  Chart.propTypes = {
-    lat: PropTypes.number,
-    lng: PropTypes.number,
     count: PropTypes.number,
+    timezone: PropTypes.string,
+    fetching: PropTypes.bool,
+    data: PropTypes.object
  }
 
 function mapStateToProps(state) {

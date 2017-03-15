@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import {connect} from 'react-redux'
-import {inc, update_position} from '../actions/Actions'
+import {update_position} from '../actions/Actions'
 
 export class Map extends Component {
   constructor(props) {
@@ -13,14 +13,13 @@ export class Map extends Component {
 
     this.params = {v: '3.exp', key: 'AIzaSyCKH7XeJZRZvHcaE8xi9rl0LRGzCJyjfDU'};
   }
-
-onClick(e) {
-      console.log('onClick', e);
-      this.props.dispatch(inc(1));
+ 
+ onClick(e) {
+      //console.log('onClick', e);
       this.props.dispatch(update_position(e.latLng.lat(), e.latLng.lng()));
-}
+ }
 
-  render() {
+render() {
     console.log(this);
 
     return (
@@ -34,11 +33,28 @@ onClick(e) {
         params={this.params}
         onClick={this.onClick.bind(this)}
         onMapCreated={this.onMapCreated}>
+        <Marker
+          lat={this.props.lat}
+          lng={this.props.lng}
+          draggable={true}
+          onDragEnd={this.onDragEnd} />
       </Gmaps>
+      <p> {this.props.lat} * {this.props.lng}</p>
       </section>
     );
   }
 }
 
-export var VisibleMap = connect((state)=> { return {state: state} }) (Map)
+ Map.propTypes = {
+    lat: PropTypes.number,
+    lng: PropTypes.number
+ }
+function mapStateToProps(state) {
+  return {
+    lat: state.Position.lat,
+    lng: state.Position.lng
+  };
+}
+
+export var VisibleMap = connect(mapStateToProps) (Map)
 
