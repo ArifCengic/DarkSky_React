@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ArifCengic/DarkSky_ReactApp",
   "dependencies": {
-    "axios": "0.13.1",
+    "axios": ">=0.18.1",
     "bootstrap": "^3.3.5",
     "google-maps-react": "^1.0.19",
     "history": "^3.0.0",
