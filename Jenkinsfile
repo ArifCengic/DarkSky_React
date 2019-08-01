@@ -21,7 +21,8 @@ pipeline {
                       osaInstallBeforeScan: false, 
                       password: '{AQAAABAAAAAQxv33DcnfsDqiF0VHqA0fTWSzRD/0DcyPaums62SMQ4M=}', 
                       projectName: 'test CheckMarx', 
-                      sastEnabled: true, serverUrl: '', 
+                      sastEnabled: true, 
+                      serverUrl: '', 
                       sourceEncoding: 'Provide Checkmarx server credentials to see source encodings list', 
                       username: '', 
                       vulnerabilityThresholdResult: 'FAILURE', waitForResultsEnabled: true])
