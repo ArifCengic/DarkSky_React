@@ -11,15 +11,6 @@ pipeline {
         }
     }
     post {
-    failure {
-      slackSend channel: '#acengic_c',
-        color: 'danger',
-        message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Build Info>)"
-    }
-    success {
-      slackSend channel: '##acengic_c',
-        color: 'good',
-        message: "Build Successful: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Build Info>)"
-    }
+    
   }
 }
