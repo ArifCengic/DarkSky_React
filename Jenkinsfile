@@ -37,7 +37,7 @@ pipeline {
                       sourceEncoding: '1', 
                       username: '', 
                       vulnerabilityThresholdResult: 'FAILURE', 
-                      waitForResultsEnabled: true]),
+                      waitForResultsEnabled: true])
                     }
                 
         }
