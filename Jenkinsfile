@@ -26,13 +26,13 @@ pipeline {
 !**/*.stml,    !**/*.ttml,      !**/*.txn,      !**/*.xhtm,     !**/*.xhtml,   !**/*.class, !**/*.iml, !Checkmarx/Reports/*.*''', 
                       fullScanCycle: 10, 
                       generateXmlReport: false, 
-                      groupId: '00000000-1111-1111-b111-989c9070eb11', 
+                      groupId: '00000000-1111-1111-b111-989c9070eb11', //this is Team Id group = team
                       includeOpenSourceFolders: '', 
                       osaArchiveIncludePatterns: '*.zip, *.war, *.ear, *.tgz', 
                       osaInstallBeforeScan: false, 
-                      password: '{AQAAABAAAAAQKPDfLRwhhS+Fzo2c+WqiBZ64zbh0SIvD+qbhvusJ8jQ=}', 
+                      //password: '{AQAAABAAAAAQKPDfLRwhhS+Fzo2c+WqiBZ64zbh0SIvD+qbhvusJ8jQ=}', 
                       preset: '36', 
-                      projectName: 'CekMarx Again', 
+                      projectName: 'PROJECT_NAME', //Enter project name
                       sastEnabled: true, 
                       serverUrl: 'https://ngs.checkmarx.net', 
                       sourceEncoding: '1', 
