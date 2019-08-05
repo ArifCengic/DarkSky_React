@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Test') {
+        stage('Code Security Scan') {
             
             steps {           
                 step([$class: 'CxScanBuilder', 
