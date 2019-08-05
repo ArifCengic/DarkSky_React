@@ -31,7 +31,7 @@ pipeline {
                       osaArchiveIncludePatterns: '*.zip, *.war, *.ear, *.tgz', 
                       osaInstallBeforeScan: false, 
                       //password: '{AQAAABAAAAAQKPDfLRwhhS+Fzo2c+WqiBZ64zbh0SIvD+qbhvusJ8jQ=}', 
-                      preset: '36', 
+                      preset: '36', // 36 means No Preset New project
                       projectName: 'PROJECT_NAME', //Enter project name
                       sastEnabled: true, 
                       serverUrl: 'https://ngs.checkmarx.net', 
