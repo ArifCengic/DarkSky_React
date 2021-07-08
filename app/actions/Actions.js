@@ -1,4 +1,4 @@
-//import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch'
 import {storeX} from '../Store'
 
 //for now keep all Actions in one file
@@ -31,6 +31,24 @@ export function fetch_weather() {
 
         let url = `${BASE_URL}${KEY}/${lat},${lng},${ts}`;
         console.log(url);
+        //ARRRRRR
+        // url (required), options (optional)
+        var request = new Request(url, {
+	method: 'GET', 
+	mode: 'no-cors', 
+	redirect: 'follow',
+	headers: new Headers({
+		'Content-Type': 'text/plain'
+	})
+});
+          fetch(request)
+          .then(function(response) {
+            console.log(response);
+          }).catch(function(err) {
+            console.log(err);
+          });
+          return;
+        //ARRRR
         promises.push( $.ajax({
              url: url,
              dataType: 'jsonp'
